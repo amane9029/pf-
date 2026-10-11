@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { Download, ChevronDown, Menu, X } from './Icons';
 
@@ -17,6 +18,11 @@ const navLinks = [
 export default function Header() {
   const [fishDropdown, setFishDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close mobile drawer on ESC or route change
   useEffect(() => {
@@ -106,8 +112,8 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Drawer Backdrop & Menu */}
-      {mobileMenuOpen && (
+      {/* Mobile Drawer Backdrop & Menu mounted to body */}
+      {mounted && mobileMenuOpen && createPortal(
         <div className="pf-mobile-menu-overlay" onClick={closeMenu}>
           <div className="pf-mobile-menu-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="pf-mobile-menu-header">
@@ -172,7 +178,8 @@ export default function Header() {
               </Link>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );
