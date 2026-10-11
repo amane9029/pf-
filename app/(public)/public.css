@@ -1307,11 +1307,156 @@
   color: #0f2c59;
 }
 
+/* Mobile Hamburger Button */
+.pf-mobile-hamburger {
+  display: none;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.pf-mobile-hamburger:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+/* Mobile Drawer Backdrop & Drawer */
+.pf-mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 44, 89, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+  animation: pfFadeIn 0.2s ease-out;
+}
+
+.pf-mobile-menu-drawer {
+  width: 85%;
+  max-width: 320px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -8px 0 32px rgba(15, 44, 89, 0.18);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 18px;
+  overflow-y: auto;
+  animation: pfSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pfFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pfSlideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.pf-mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.pf-mobile-close-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pf-mobile-close-btn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.pf-mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  gap: 4px;
+  flex: 1;
+}
+
+.pf-mobile-nav-item {
+  display: block;
+  padding: 11px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f2c59;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.15s ease;
+}
+
+.pf-mobile-nav-item:hover,
+.pf-mobile-nav-item:active {
+  background-color: #f0f7ff;
+  color: #1e56a0;
+  padding-left: 18px;
+}
+
+.pf-mobile-subnav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+  margin-top: -2px;
+  margin-bottom: 6px;
+  gap: 2px;
+}
+
+.pf-mobile-sublink {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: color 0.15s ease;
+}
+
+.pf-mobile-sublink:hover {
+  color: #1e56a0;
+}
+
+.pf-mobile-menu-footer {
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
 /* ==========================================================================
    Mobile & Responsive Card Carousel Scrolling Experience
    ========================================================================== */
 @media (max-width: 900px) {
-  /* Horizontal swipeable card rail for fish catalog and daily offers */
+  /* Hide desktop navbar and show hamburger */
+  .pf-nav-links,
+  .pf-header-actions {
+    display: none !important;
+  }
+
+  .pf-mobile-hamburger {
+    display: inline-flex !important;
+  }
+
+  /* Horizontal swipeable card rail - 1 card at a time in the row */
   .pf-fish-grid,
   .pf-offers-grid {
     display: flex !important;
@@ -1322,9 +1467,9 @@
     gap: 16px !important;
     padding-bottom: 20px;
     padding-top: 6px;
-    padding-left: 4px;
-    padding-right: 24px;
-    margin-right: -16px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
     scrollbar-width: thin;
     scrollbar-color: #93c5fd #f1f5f9;
   }
@@ -1346,18 +1491,19 @@
     border-radius: 999px;
   }
 
+  /* Single fish card taking full row width on mobile */
   .pf-fish-card {
-    flex: 0 0 250px !important;
-    min-width: 250px !important;
-    max-width: 250px !important;
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
     scroll-snap-align: start;
     box-shadow: 0 4px 14px rgba(15, 44, 89, 0.08) !important;
   }
 
   .pf-offer-card {
-    flex: 0 0 270px !important;
-    min-width: 270px !important;
-    max-width: 270px !important;
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
     scroll-snap-align: start;
     box-shadow: 0 4px 14px rgba(15, 44, 89, 0.08) !important;
   }

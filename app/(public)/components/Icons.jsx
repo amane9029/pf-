@@ -262,4 +262,3 @@ export function Scale({ size = 16, className = '', color = 'currentColor', ...pr
     </svg>
   );
 }
-
