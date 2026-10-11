@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Store, Tv, Download, QrCode, ChevronDown } from './Icons';
+import { Download, ChevronDown } from './Icons';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -65,23 +65,8 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right Action CTAs */}
+          {/* Right Action CTA */}
           <div className="pf-header-actions">
-            <Link href="/booking" className="pf-pill-btn" title="View & Book Passes">
-              <QrCode size={14} color="#1e56a0" />
-              <span>My Passes</span>
-            </Link>
-
-            <Link href="/admin/login" className="pf-pill-btn" title="Staff & Admin Portal">
-              <Store size={14} color="#1e56a0" />
-              <span>Staff / Admin</span>
-            </Link>
-
-            <Link href="/tv" target="_blank" className="pf-pill-btn pf-pill-btn-tv" title="Open Live Shop TV Transaction Display">
-              <Tv size={14} color="#1e56a0" />
-              <span>Shop TV</span>
-            </Link>
-
             <Link href="/#mobile-app" className="pf-btn-primary pf-btn-app" title="Download the PondFish Mobile App">
               <Download size={14} />
               <span>Download App</span>
