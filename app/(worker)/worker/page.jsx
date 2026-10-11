@@ -114,7 +114,7 @@ export default function WorkerDashboardPage() {
   return (
     <div>
       {/* Page Title & Refresh */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 4px 0', color: '#0F2C59', letterSpacing: '-0.02em' }}>
             Store Counter Dashboard
@@ -149,7 +149,7 @@ export default function WorkerDashboardPage() {
       </div>
 
       {/* Metric Summary Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+      <div className="pf-worker-metrics-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' }}>
         <div style={{ background: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '16px', padding: '22px', boxShadow: '0 4px 16px rgba(15, 44, 89, 0.04)' }}>
           <div style={{ fontSize: '11px', color: '#64748B', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>
             Awaiting Collection
@@ -200,7 +200,7 @@ export default function WorkerDashboardPage() {
       </div>
 
       {/* Quick Action Buttons */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '28px' }}>
+      <div className="pf-worker-action-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '28px' }}>
         <Link
           id="btn-worker-instore-sale"
           href="/worker/customers"
@@ -390,6 +390,7 @@ export default function WorkerDashboardPage() {
               return (
                 <div
                   key={booking.id}
+                  className="pf-worker-booking-item"
                   style={{
                     padding: '18px 24px',
                     borderBottom: '1px solid #E2E8F0',

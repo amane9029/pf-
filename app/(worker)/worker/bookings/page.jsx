@@ -115,7 +115,7 @@ export default function WorkerBookingQueuePage() {
   return (
     <div>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '24px', fontWeight: '900', color: '#0F2C59', margin: '0 0 4px 0', letterSpacing: '-0.02em' }}>
             Store Booking Queue
@@ -237,6 +237,7 @@ export default function WorkerBookingQueuePage() {
               return (
                 <div
                   key={booking.id}
+                  className="pf-worker-booking-item"
                   style={{
                     padding: '18px 24px',
                     borderBottom: '1px solid #E2E8F0',

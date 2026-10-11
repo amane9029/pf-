@@ -279,62 +279,66 @@ export default function TVPortalPage() {
   }, [fetchRecentTransactions, connectWebSocket, handleIncomingTransaction]);
 
   return (
-    <div style={styles.container}>
+    <div className="pf-tv-shell" style={styles.container}>
       {/* 1. Global Header Bar */}
-      <header style={styles.header}>
-        <div style={styles.brandGroup}>
-          <div style={styles.logoBadge}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E56A0" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0" />
-              <path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0" />
-              <path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0" />
-            </svg>
-          </div>
-          <div>
-            <div style={styles.brandTitle}>
-              POND<span style={{ color: '#1E56A0' }}>FISH</span> FRESH COUNTER
+      <header className="pf-tv-header" style={styles.header}>
+        <div className="pf-tv-header-left" style={styles.brandGroup}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={styles.logoBadge}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1E56A0" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0" />
+                <path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0" />
+                <path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0" />
+              </svg>
             </div>
-            <div style={styles.brandSubtitle}>
-              Bangalore Flagship Store • Live Checkout & Handover Display
+            <div>
+              <div className="pf-tv-brand-title" style={styles.brandTitle}>
+                POND<span style={{ color: '#1E56A0' }}>FISH</span> FRESH COUNTER
+              </div>
+              <div className="pf-tv-brand-subtitle" style={styles.brandSubtitle}>
+                Live Checkout & Handover Display
+              </div>
             </div>
           </div>
         </div>
 
         {/* Header Right: Clock + Sound + Connection Indicator */}
-        <div style={styles.headerRight}>
+        <div className="pf-tv-header-right" style={styles.headerRight}>
           {/* Audio Chime Button */}
           {!audioReady ? (
-            <button style={styles.audioPromptBtn} onClick={handleEnableAudio}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }}>
+            <button className="pf-tv-action-btn" style={styles.audioPromptBtn} onClick={handleEnableAudio}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }}>
                 <path d="M11 5L6 9H2v6h4l5 4V5z" />
                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
               </svg>
-              Enable Sound Alerts
+              Enable Chimes
             </button>
           ) : (
             <button
+              className="pf-tv-action-btn"
               style={styles.soundToggleBtn}
               onClick={() => setSoundEnabled((prev) => !prev)}
               title="Toggle transaction chime sound"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }}>
                 <path d="M11 5L6 9H2v6h4l5 4V5z" />
                 {soundEnabled && <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />}
                 {!soundEnabled && <line x1="23" y1="9" x2="17" y2="15" />}
                 {!soundEnabled && <line x1="17" y1="9" x2="23" y2="15" />}
               </svg>
-              {soundEnabled ? 'Sound ON' : 'Sound OFF'}
+              {soundEnabled ? 'Sound ON' : 'Muted'}
             </button>
           )}
 
           {/* Date & Time */}
-          <div style={styles.clockBox}>
-            <div style={styles.clockTime}>{currentTime || '--:--:--'}</div>
-            <div style={styles.clockDate}>{currentDate}</div>
+          <div className="pf-tv-clock-box" style={styles.clockBox}>
+            <div className="pf-tv-clock-time" style={styles.clockTime}>{currentTime || '--:--:--'}</div>
+            <div className="pf-tv-clock-date" style={styles.clockDate}>{currentDate}</div>
           </div>
 
           {/* Connection Status Badge */}
           <div
+            className="pf-tv-status-badge"
             style={{
               ...styles.statusBadge,
               backgroundColor:
@@ -367,6 +371,7 @@ export default function TVPortalPage() {
               }}
             />
             <span
+              className="pf-tv-status-text"
               style={{
                 ...styles.statusText,
                 color:
@@ -378,9 +383,9 @@ export default function TVPortalPage() {
               }}
             >
               {connectionStatus === 'CONNECTED'
-                ? 'LIVE FEED ACTIVE'
+                ? 'LIVE FEED'
                 : connectionStatus === 'RECONNECTING'
-                ? 'RECONNECTING...'
+                ? 'RECONNECTING'
                 : 'OFFLINE'}
             </span>
           </div>
@@ -388,7 +393,7 @@ export default function TVPortalPage() {
       </header>
 
       {/* 2. Main Content Area */}
-      <main style={styles.main}>
+      <main className="pf-tv-main" style={styles.main}>
         {/* Loading State */}
         {loading && (
           <div style={styles.skeletonContainer}>
@@ -400,7 +405,7 @@ export default function TVPortalPage() {
 
         {/* Empty State (TV-05) */}
         {!loading && transactions.length === 0 && (
-          <div style={styles.emptyContainer}>
+          <div className="pf-tv-empty-card" style={styles.emptyContainer}>
             <div style={styles.emptyIcon}>
               <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#1E56A0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="3" width="20" height="14" rx="2" />
@@ -408,10 +413,10 @@ export default function TVPortalPage() {
                 <line x1="12" y1="17" x2="12" y2="21" />
               </svg>
             </div>
-            <h2 style={styles.emptyTitle}>
+            <h2 className="pf-tv-empty-title" style={styles.emptyTitle}>
               Awaiting Next Completed Counter Checkout
             </h2>
-            <p style={styles.emptySubtitle}>
+            <p className="pf-tv-empty-subtitle" style={styles.emptySubtitle}>
               Realtime WebSocket feed will broadcast confirmed store transactions immediately.
             </p>
             <div style={styles.emptyPill}>
@@ -422,9 +427,9 @@ export default function TVPortalPage() {
 
         {/* Populated Transaction Feed (TV-01, TV-02, TV-03) */}
         {!loading && transactions.length > 0 && (
-          <div style={styles.feedWrapper}>
+          <div className="pf-tv-feed-wrapper" style={styles.feedWrapper}>
             {/* Table / Card Header */}
-            <div style={styles.tableHeader}>
+            <div className="pf-tv-table-header" style={styles.tableHeader}>
               <div style={{ flex: '0 0 160px' }}>ORDER / TIME</div>
               <div style={{ flex: '1 1 240px' }}>CUSTOMER</div>
               <div style={{ flex: '2 1 400px' }}>FRESH FISH & WEIGHT</div>
@@ -432,35 +437,44 @@ export default function TVPortalPage() {
             </div>
 
             {/* Scrollable Feed List */}
-            <div style={styles.listContainer}>
+            <div className="pf-tv-list-container" style={styles.listContainer}>
               {transactions.map((tx) => {
                 const isNew = newTxnIds.has(tx.id);
                 return (
                   <div
                     key={tx.id}
+                    className="pf-tv-card"
                     style={{
                       ...styles.transactionCard,
                       ...(isNew ? styles.newCardHighlight : {}),
                     }}
                   >
-                    {/* Column 1: Order / Time */}
-                    <div style={{ flex: '0 0 160px' }}>
-                      <div style={styles.orderPill}>
-                        {tx.billNumber || tx.transactionNumber}
+                    {/* Top Row: Order / Time + Mobile Amount */}
+                    <div className="pf-tv-card-top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flex: '0 0 160px' }}>
+                      <div>
+                        <div style={styles.orderPill}>
+                          {tx.billNumber || tx.transactionNumber}
+                        </div>
+                        <div style={styles.orderTime}>{tx.time}</div>
                       </div>
-                      <div style={styles.orderTime}>{tx.time}</div>
+                      <div className="pf-tv-card-mobile-amount" style={{ display: 'none', textAlign: 'right' }}>
+                        <div style={{ fontSize: '20px', fontWeight: '900', color: '#15803D' }}>
+                          ₹{Number(tx.paidAmount).toLocaleString('en-IN')}
+                        </div>
+                        <div style={{ fontSize: '11px', color: '#166534', fontWeight: '700' }}>Verified Paid</div>
+                      </div>
                     </div>
 
                     {/* Column 2: Customer Name */}
-                    <div style={{ flex: '1 1 240px' }}>
-                      <div style={styles.customerName}>{tx.customerName}</div>
+                    <div className="pf-tv-card-customer-col" style={{ flex: '1 1 240px' }}>
+                      <div className="pf-tv-card-customer-name" style={styles.customerName}>{tx.customerName}</div>
                       {isNew && (
                         <span style={styles.newBadge}>JUST COMPLETED</span>
                       )}
                     </div>
 
                     {/* Column 3: Fish Items & Kilograms */}
-                    <div style={{ flex: '2 1 400px' }}>
+                    <div className="pf-tv-card-fish-col" style={{ flex: '2 1 400px' }}>
                       <div style={styles.itemsWrapper}>
                         {tx.items && tx.items.length > 0 ? (
                           tx.items.map((item, idx) => (
@@ -479,8 +493,8 @@ export default function TVPortalPage() {
                       </div>
                     </div>
 
-                    {/* Column 4: Paid Amount */}
-                    <div style={{ flex: '0 0 180px', textAlign: 'right' }}>
+                    {/* Column 4: Desktop Paid Amount */}
+                    <div className="pf-tv-card-amount-col" style={{ flex: '0 0 180px', textAlign: 'right' }}>
                       <div style={styles.amountValue}>
                         ₹{Number(tx.paidAmount).toLocaleString('en-IN')}
                       </div>
