@@ -435,7 +435,7 @@ export default function AdminJourneysPage() {
       </div>
 
       {/* Overview Metric Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '28px' }}>
+      <div className="pf-admin-metrics-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '28px' }}>
         <div style={{ background: '#FFFFFF', padding: '18px', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
           <div style={{ fontSize: '12px', color: '#64748B', textTransform: 'uppercase', marginBottom: '6px' }}>
             Total Journeys
@@ -480,7 +480,7 @@ export default function AdminJourneysPage() {
       </div>
 
       {/* Main Grid: Left List (40%), Right Detail & Telemetry (60%) */}
-      <div style={{ display: 'grid', gridTemplateColumns: '420px 1fr', gap: '24px' }}>
+      <div className="pf-admin-journeys-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 420px) 1fr', gap: '24px' }}>
         {/* Left Column: Journeys List */}
         <div style={{ background: '#FFFFFF', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>

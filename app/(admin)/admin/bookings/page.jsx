@@ -207,9 +207,9 @@ export default function AdminBookingsPage() {
   );
 
   return (
-    <div style={{ maxWidth: '1440px', margin: '0 auto', color: '#0F2C59' }}>
+    <div style={{ maxWidth: '1440px', margin: '0 auto', color: '#0F2C59', width: '100%', minWidth: 0, boxSizing: 'border-box' }}>
       {/* Header Section */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             
@@ -306,11 +306,14 @@ export default function AdminBookingsPage() {
 
       {/* Status Counters Dashboard */}
       <div
+        className="pf-admin-metrics-grid"
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
           gap: '12px',
           marginBottom: '24px',
+          width: '100%',
+          boxSizing: 'border-box',
         }}
       >
         <div
@@ -416,16 +419,18 @@ export default function AdminBookingsPage() {
           background: '#FFFFFF',
           borderRadius: '10px',
           border: '1px solid #E2E8F0',
-          padding: '18px',
+          padding: '16px',
           marginBottom: '20px',
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '12px',
+          gap: '10px',
           alignItems: 'center',
+          width: '100%',
+          boxSizing: 'border-box',
         }}
       >
         {/* Search Input */}
-        <div style={{ flex: '1 1 280px', position: 'relative' }}>
+        <div style={{ flex: '1 1 260px', width: '100%', minWidth: 0, position: 'relative' }}>
           <input
             id="input-search-bookings"
             type="text"
@@ -451,12 +456,15 @@ export default function AdminBookingsPage() {
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           style={{
+            flex: '1 1 130px',
             background: '#F8FAFC',
             border: '1px solid #E2E8F0',
             borderRadius: '6px',
             padding: '10px 14px',
             color: '#0F2C59',
             fontSize: '13px',
+            boxSizing: 'border-box',
+            minWidth: 0,
           }}
         >
           <option value="ALL">All Statuses</option>
@@ -474,12 +482,15 @@ export default function AdminBookingsPage() {
           value={sourceFilter}
           onChange={(e) => setSourceFilter(e.target.value)}
           style={{
+            flex: '1 1 130px',
             background: '#F8FAFC',
             border: '1px solid #E2E8F0',
             borderRadius: '6px',
             padding: '10px 14px',
             color: '#0F2C59',
             fontSize: '13px',
+            boxSizing: 'border-box',
+            minWidth: 0,
           }}
         >
           <option value="ALL">All Sources</option>
@@ -488,7 +499,7 @@ export default function AdminBookingsPage() {
         </select>
 
         {/* Date From */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div style={{ flex: '1 1 130px', display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
           <span style={{ fontSize: '11px', color: '#64748B', fontWeight: '600' }}>FROM</span>
           <input
             id="input-date-from"
@@ -496,18 +507,22 @@ export default function AdminBookingsPage() {
             value={dateFrom}
             onChange={(e) => setDateFrom(e.target.value)}
             style={{
+              flex: 1,
+              width: '100%',
               background: '#F8FAFC',
               border: '1px solid #E2E8F0',
               borderRadius: '6px',
-              padding: '9px 12px',
+              padding: '9px 10px',
               color: '#0F2C59',
               fontSize: '13px',
+              boxSizing: 'border-box',
+              minWidth: 0,
             }}
           />
         </div>
 
         {/* Date To */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div style={{ flex: '1 1 130px', display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
           <span style={{ fontSize: '11px', color: '#64748B', fontWeight: '600' }}>TO</span>
           <input
             id="input-date-to"
@@ -515,12 +530,16 @@ export default function AdminBookingsPage() {
             value={dateTo}
             onChange={(e) => setDateTo(e.target.value)}
             style={{
+              flex: 1,
+              width: '100%',
               background: '#F8FAFC',
               border: '1px solid #E2E8F0',
               borderRadius: '6px',
-              padding: '9px 12px',
+              padding: '9px 10px',
               color: '#0F2C59',
               fontSize: '13px',
+              boxSizing: 'border-box',
+              minWidth: 0,
             }}
           />
         </div>
@@ -537,7 +556,8 @@ export default function AdminBookingsPage() {
               borderRadius: '6px',
               fontSize: '13px',
               cursor: 'pointer',
-              fontWeight: '500',
+              fontWeight: '600',
+              boxSizing: 'border-box',
             }}
           >
             Clear Filters
@@ -545,10 +565,48 @@ export default function AdminBookingsPage() {
         )}
       </div>
 
-      {/* Bookings Table */}
-      <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', overflow: 'hidden', boxShadow: '0 4px 16px rgba(15, 44, 89, 0.04)' }}>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px', minWidth: '1080px' }}>
+      {/* Bookings Table Card */}
+      <div
+        className="pf-admin-table-card"
+        style={{
+          background: '#FFFFFF',
+          borderRadius: '12px',
+          border: '1px solid #E2E8F0',
+          overflow: 'hidden',
+          boxShadow: '0 4px 16px rgba(15, 44, 89, 0.04)',
+          width: '100%',
+          maxWidth: '100%',
+          minWidth: 0,
+          boxSizing: 'border-box',
+        }}
+      >
+        <div
+          className="pf-admin-scroll-hint"
+          style={{
+            display: 'none',
+            padding: '8px 12px',
+            background: '#F1F5F9',
+            borderBottom: '1px solid #E2E8F0',
+            fontSize: '11px',
+            color: '#64748B',
+            fontWeight: '600',
+            textAlign: 'center',
+          }}
+        >
+          ↔ Scroll horizontally to view all columns
+        </div>
+        <div
+          className="pf-admin-table-scroll"
+          style={{
+            overflowX: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            width: '100%',
+            maxWidth: '100%',
+            minWidth: 0,
+            boxSizing: 'border-box',
+          }}
+        >
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px', minWidth: '980px' }}>
             <thead>
               <tr style={{ background: '#F8FAFC', borderBottom: '1px solid #E2E8F0', color: '#64748B' }}>
                 <th style={{ padding: '14px 16px', fontWeight: '600' }}>Booking ID</th>
@@ -782,6 +840,7 @@ export default function AdminBookingsPage() {
 
         {/* Pagination Toolbar */}
         <div
+          className="pf-admin-pagination-bar"
           style={{
             padding: '14px 20px',
             background: '#F8FAFC',
