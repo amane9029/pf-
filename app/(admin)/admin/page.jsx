@@ -84,7 +84,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Date Filter Bar */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#FFFFFF', padding: '6px 10px', borderRadius: '10px', border: '1px solid #CBD5E1', flexWrap: 'wrap', boxShadow: '0 2px 6px rgba(15, 44, 89, 0.04)' }}>
+        <div className="pf-admin-filter-bar" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#FFFFFF', padding: '6px 10px', borderRadius: '10px', border: '1px solid #CBD5E1', boxShadow: '0 2px 6px rgba(15, 44, 89, 0.04)' }}>
           {[
             { id: 'today', label: 'Today' },
             { id: 'yesterday', label: 'Yesterday' },
@@ -230,7 +230,7 @@ export default function AdminDashboardPage() {
                 Total Physical: {metrics.inventory.total_physical_kg} kg • Available: {metrics.inventory.total_available_kg} kg • Reserved: {metrics.inventory.total_reserved_kg} kg
               </span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
+            <div className="pf-admin-metrics-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
               <MetricCard title="Total Fish Listed" value={metrics.inventory.total_fish} variant="primary" />
               <MetricCard title="Available Fish" value={metrics.inventory.available_fish} variant="success" />
               <MetricCard title="Unavailable Fish" value={metrics.inventory.unavailable_fish} variant={metrics.inventory.unavailable_fish > 0 ? 'danger' : 'default'} />
@@ -250,7 +250,7 @@ export default function AdminDashboardPage() {
               </svg>
               <span>Customer Bookings Pipeline</span>
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
+            <div className="pf-admin-metrics-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
               <MetricCard title="Period Bookings" value={metrics.bookings.period_bookings} variant="primary" />
               <MetricCard title="Pending Collection" value={metrics.bookings.pending_collection} variant="info" />
               <MetricCard title="Completed" value={metrics.bookings.completed} variant="success" />
@@ -269,7 +269,7 @@ export default function AdminDashboardPage() {
                 </svg>
                 <span>Transactions & Commercial Sales</span>
               </h2>
-              <div style={{ display: 'flex', gap: '8px', fontSize: '12px' }}>
+              <div style={{ display: 'flex', gap: '8px', fontSize: '12px', flexWrap: 'wrap' }}>
                 {metrics.transactions.payment_methods.map((pm) => (
                   <span key={pm.payment_method} style={{ background: '#FFFFFF', padding: '4px 10px', borderRadius: '6px', border: '1px solid #E2E8F0', color: '#425B73', fontWeight: '600' }}>
                     {pm.payment_method}: {pm.count} ({formatCurrency(pm.total_amount)})
@@ -277,7 +277,7 @@ export default function AdminDashboardPage() {
                 ))}
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+            <div className="pf-admin-metrics-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
               <MetricCard title="Total Transactions" value={metrics.transactions.total_transactions} variant="primary" />
               <MetricCard title="Successful / Finalized" value={metrics.transactions.successful} variant="success" />
               <MetricCard title="Failed / Aborted" value={metrics.transactions.failed} variant={metrics.transactions.failed > 0 ? 'danger' : 'default'} />

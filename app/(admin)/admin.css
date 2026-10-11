@@ -1,0 +1,195 @@
+/* ==========================================================================
+   PondFish Admin Portal - Mobile & Responsive Stylesheet
+   ========================================================================== */
+
+.pf-admin-shell {
+  min-height: 100vh;
+  display: flex;
+  background: #F8FAFC;
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0F2C59;
+}
+
+/* Desktop Sidebar */
+.pf-admin-sidebar {
+  width: 260px;
+  background: #0F2C59;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+}
+
+/* Content Area */
+.pf-admin-content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Top Header */
+.pf-admin-header {
+  padding: 14px 32px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(15, 44, 89, 0.02);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+/* Hamburger Toggle Button */
+.pf-admin-hamburger {
+  display: none;
+  background: transparent;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 7px;
+  align-items: center;
+  justify-content: center;
+  color: #0F2C59;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.pf-admin-hamburger:hover {
+  background: #F1F5F9;
+  border-color: #94A3B8;
+}
+
+/* Main Area */
+.pf-admin-main {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  background: #F8FAFC;
+}
+
+/* Mobile Drawer Overlay & Drawer */
+.pf-admin-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 44, 89, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  justify-content: flex-start;
+  animation: pfAdminFadeIn 0.2s ease-out;
+}
+
+.pf-admin-mobile-drawer {
+  width: 82%;
+  max-width: 300px;
+  height: 100vh;
+  min-height: 100vh;
+  background: #0F2C59;
+  box-shadow: 8px 0 32px rgba(15, 44, 89, 0.35);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  overflow-y: auto;
+  z-index: 100000;
+  animation: pfAdminSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pfAdminFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pfAdminSlideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.pf-admin-mobile-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #FFFFFF;
+  transition: all 0.15s ease;
+}
+
+.pf-admin-mobile-close-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: #EF4444;
+}
+
+/* ==========================================================================
+   Mobile Responsive Breakpoint (<= 900px)
+   ========================================================================== */
+@media (max-width: 900px) {
+  /* Hide Desktop Sidebar */
+  .pf-admin-sidebar {
+    display: none !important;
+  }
+
+  /* Show Hamburger Button */
+  .pf-admin-hamburger {
+    display: inline-flex !important;
+  }
+
+  /* Compact Top Header */
+  .pf-admin-header {
+    padding: 10px 14px !important;
+    gap: 8px !important;
+  }
+
+  .pf-admin-header-subtitle {
+    display: none !important;
+  }
+
+  .pf-admin-header-userinfo {
+    display: none !important;
+  }
+
+  .pf-admin-session-badge {
+    padding: 2px 7px !important;
+    font-size: 10px !important;
+  }
+
+  /* Compact Main Area */
+  .pf-admin-main {
+    padding: 16px 12px !important;
+  }
+
+  /* Responsive Horizontal Scroll for Tables and Data Grids */
+  table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Make large multi-column stat metric grids wrap naturally */
+  .pf-admin-metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .pf-admin-metrics-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

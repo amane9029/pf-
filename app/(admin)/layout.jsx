@@ -8,7 +8,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
+import './admin.css';
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
@@ -16,6 +18,12 @@ export default function AdminLayout({ children }) {
 
   const [adminUser, setAdminUser] = useState(null);
   const [checkingAuth, setCheckingAuth] = useState(!isLoginPage);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (isLoginPage) {
@@ -55,6 +63,25 @@ export default function AdminLayout({ children }) {
 
     verifyAuth();
   }, [pathname, isLoginPage]);
+
+  // Handle ESC key and scroll lock for mobile drawer
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [mobileMenuOpen]);
+
+  const closeMenu = () => setMobileMenuOpen(false);
 
   const handleLogout = async () => {
     try {
@@ -117,10 +144,239 @@ export default function AdminLayout({ children }) {
     transition: 'all 0.15s ease',
   });
 
+  const renderNavItems = (onLinkClick) => (
+    <>
+      <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', margin: '8px 8px 4px', fontWeight: '700' }}>
+        Operations
+      </div>
+      <a
+        href="/admin"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin')}
+      >
+        Executive Dashboard
+      </a>
+      <a
+        id="nav-admin-bookings"
+        href="/admin/bookings"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname?.startsWith('/admin/bookings'))}
+      >
+        Bookings
+      </a>
+      <a
+        id="nav-admin-transactions"
+        href="/admin/transactions"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname?.startsWith('/admin/transactions'))}
+      >
+        Transactions
+      </a>
+      <a
+        id="nav-admin-notifications"
+        href="/admin/notifications"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname?.startsWith('/admin/notifications'))}
+      >
+        Notifications
+      </a>
+      <a
+        href="/admin/journeys"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname?.startsWith('/admin/journeys'))}
+      >
+        GPS Truck Journey
+      </a>
+      <a
+        href="/admin/settings"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/settings')}
+      >
+        Business Settings
+      </a>
+      <a
+        href="/admin/reports"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/reports' || pathname === '/admin/exports')}
+      >
+        Reports & Exports
+      </a>
+
+      <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
+        Catalog & Sales
+      </div>
+      <a
+        id="nav-admin-fish"
+        href="/admin/fish"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/fish')}
+      >
+        Fish Management
+      </a>
+      <a
+        id="nav-admin-categories"
+        href="/admin/categories"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/categories')}
+      >
+        Categories
+      </a>
+      <a
+        id="nav-admin-discounts"
+        href="/admin/discounts"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/discounts')}
+      >
+        Discounts
+      </a>
+
+      <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
+        Subscriptions
+      </div>
+      <a
+        id="nav-admin-subscription-plans"
+        href="/admin/subscriptions/plans"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/subscriptions/plans')}
+      >
+        Subscription Plans
+      </a>
+      <a
+        id="nav-admin-customer-subscriptions"
+        href="/admin/subscriptions"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/subscriptions')}
+      >
+        Customer Subscriptions
+      </a>
+
+      <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
+        People & Teams
+      </div>
+      <a
+        id="nav-admin-customers"
+        href="/admin/customers"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/customers')}
+      >
+        Customers
+      </a>
+      <a
+        id="nav-admin-workers"
+        href="/admin/workers"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/workers')}
+      >
+        Workers
+      </a>
+
+      <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
+        Governance
+      </div>
+      <a
+        href="/admin/audit"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/audit' || pathname === '/admin/audit-logs')}
+      >
+        Audit Trail
+      </a>
+      <a
+        href="/admin/exceptions"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/exceptions')}
+      >
+        Exceptions Center
+      </a>
+      <a
+        id="nav-admin-security"
+        href="/admin/security"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/security')}
+      >
+        Admin Security
+      </a>
+
+      <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
+        Account
+      </div>
+      <a
+        id="nav-admin-profile"
+        href="/admin/profile"
+        onClick={onLinkClick}
+        style={getNavLinkStyle(pathname === '/admin/profile')}
+      >
+        Profile & Identity
+      </a>
+      <button
+        id="nav-admin-logout"
+        onClick={() => {
+          if (onLinkClick) onLinkClick();
+          handleLogout();
+        }}
+        style={{
+          background: 'none',
+          border: 'none',
+          color: '#F87171',
+          textAlign: 'left',
+          padding: '9px 12px',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontSize: '13px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          fontWeight: '600',
+        }}
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>Sign Out</span>
+      </button>
+    </>
+  );
+
+  const renderUserCard = () => (
+    <div style={{
+      marginTop: 'auto',
+      paddingTop: '16px',
+      borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px',
+    }}>
+      <div style={{
+        width: '34px',
+        height: '34px',
+        borderRadius: '50%',
+        background: 'linear-gradient(135deg, #1E56A0, #0284C7)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '14px',
+        color: '#FFFFFF',
+        fontWeight: '800',
+        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
+      }}>
+        {adminUser?.name?.charAt(0) || 'A'}
+      </div>
+      <div style={{ flex: 1, overflow: 'hidden' }}>
+        <div style={{ fontSize: '12px', fontWeight: '700', color: '#FFFFFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {adminUser?.name || 'Administrator'}
+        </div>
+        <div style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.6)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {adminUser?.email || 'admin@pondfish.in'}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: '#F8FAFC', fontFamily: "var(--font-jakarta), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
-      {/* Sidebar Navigation */}
-      <aside style={{ width: '260px', background: '#0F2C59', borderRight: '1px solid rgba(255, 255, 255, 0.08)', padding: '24px 16px', display: 'flex', flexDirection: 'column' }}>
+    <div className="pf-admin-shell">
+      {/* Desktop Sidebar Navigation */}
+      <aside className="pf-admin-sidebar">
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px', paddingLeft: '4px' }}>
           <div style={{
             width: '32px',
@@ -149,227 +405,49 @@ export default function AdminLayout({ children }) {
         </div>
 
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', color: '#CBD5E1', flex: 1, overflowY: 'auto' }}>
-          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', margin: '8px 8px 4px', fontWeight: '700' }}>
-            Operations
-          </div>
-          <a
-            href="/admin"
-            style={getNavLinkStyle(pathname === '/admin')}
-          >
-            Executive Dashboard
-          </a>
-          <a
-            id="nav-admin-bookings"
-            href="/admin/bookings"
-            style={getNavLinkStyle(pathname?.startsWith('/admin/bookings'))}
-          >
-            Bookings
-          </a>
-          <a
-            id="nav-admin-transactions"
-            href="/admin/transactions"
-            style={getNavLinkStyle(pathname?.startsWith('/admin/transactions'))}
-          >
-            Transactions
-          </a>
-          <a
-            id="nav-admin-notifications"
-            href="/admin/notifications"
-            style={getNavLinkStyle(pathname?.startsWith('/admin/notifications'))}
-          >
-            Notifications
-          </a>
-          <a
-            href="/admin/journeys"
-            style={getNavLinkStyle(pathname?.startsWith('/admin/journeys'))}
-          >
-            GPS Truck Journey
-          </a>
-          <a
-            href="/admin/settings"
-            style={getNavLinkStyle(pathname === '/admin/settings')}
-          >
-            Business Settings
-          </a>
-          <a
-            href="/admin/reports"
-            style={getNavLinkStyle(pathname === '/admin/reports' || pathname === '/admin/exports')}
-          >
-            Reports & Exports
-          </a>
-
-          <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
-            Catalog & Sales
-          </div>
-          <a
-            id="nav-admin-fish"
-            href="/admin/fish"
-            style={getNavLinkStyle(pathname === '/admin/fish')}
-          >
-            Fish Management
-          </a>
-          <a
-            id="nav-admin-categories"
-            href="/admin/categories"
-            style={getNavLinkStyle(pathname === '/admin/categories')}
-          >
-            Categories
-          </a>
-          <a
-            id="nav-admin-discounts"
-            href="/admin/discounts"
-            style={getNavLinkStyle(pathname === '/admin/discounts')}
-          >
-            Discounts
-          </a>
-
-          <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
-            Subscriptions
-          </div>
-          <a
-            id="nav-admin-subscription-plans"
-            href="/admin/subscriptions/plans"
-            style={getNavLinkStyle(pathname === '/admin/subscriptions/plans')}
-          >
-            Subscription Plans
-          </a>
-          <a
-            id="nav-admin-customer-subscriptions"
-            href="/admin/subscriptions"
-            style={getNavLinkStyle(pathname === '/admin/subscriptions')}
-          >
-            Customer Subscriptions
-          </a>
-
-          <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
-            People & Teams
-          </div>
-          <a
-            id="nav-admin-customers"
-            href="/admin/customers"
-            style={getNavLinkStyle(pathname === '/admin/customers')}
-          >
-            Customers
-          </a>
-          <a
-            id="nav-admin-workers"
-            href="/admin/workers"
-            style={getNavLinkStyle(pathname === '/admin/workers')}
-          >
-            Workers
-          </a>
-
-          <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
-            Governance
-          </div>
-          <a
-            href="/admin/audit"
-            style={getNavLinkStyle(pathname === '/admin/audit' || pathname === '/admin/audit-logs')}
-          >
-            Audit Trail
-          </a>
-          <a
-            href="/admin/exceptions"
-            style={getNavLinkStyle(pathname === '/admin/exceptions')}
-          >
-            Exceptions Center
-          </a>
-          <a
-            id="nav-admin-security"
-            href="/admin/security"
-            style={getNavLinkStyle(pathname === '/admin/security')}
-          >
-            Admin Security
-          </a>
-
-          <div style={{ margin: '14px 0 4px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(255, 255, 255, 0.4)', paddingLeft: '8px', fontWeight: '700' }}>
-            Account
-          </div>
-          <a
-            id="nav-admin-profile"
-            href="/admin/profile"
-            style={getNavLinkStyle(pathname === '/admin/profile')}
-          >
-            Profile & Identity
-          </a>
-          <button
-            id="nav-admin-logout"
-            onClick={handleLogout}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#F87171',
-              textAlign: 'left',
-              padding: '9px 12px',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: '13px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              fontWeight: '600',
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-            <span>Sign Out</span>
-          </button>
+          {renderNavItems()}
         </nav>
 
         {/* User Mini Card at bottom of sidebar */}
-        <div style={{
-          marginTop: 'auto',
-          paddingTop: '16px',
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-        }}>
-          <div style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #1E56A0, #0284C7)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '14px',
-            color: '#FFFFFF',
-            fontWeight: '800',
-            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
-          }}>
-            {adminUser?.name?.charAt(0) || 'A'}
-          </div>
-          <div style={{ flex: 1, overflow: 'hidden' }}>
-            <div style={{ fontSize: '12px', fontWeight: '700', color: '#FFFFFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {adminUser?.name || 'Administrator'}
-            </div>
-            <div style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.6)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {adminUser?.email || 'admin@pondfish.in'}
-            </div>
-          </div>
-        </div>
+        {renderUserCard()}
       </aside>
 
       {/* Main Content Area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+      <div className="pf-admin-content-wrapper">
         {/* Top Header */}
-        <header style={{
-          padding: '14px 32px',
-          background: '#FFFFFF',
-          borderBottom: '1px solid #E2E8F0',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          boxShadow: '0 1px 3px rgba(15, 44, 89, 0.02)',
-        }}>
+        <header className="pf-admin-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '13px', color: '#64748B', fontWeight: '600' }}>PondFish Enterprise Operations</span>
-            <span style={{ fontSize: '11px', color: '#CBD5E1' }}>|</span>
-            <span style={{
+            {/* Hamburger Button on mobile */}
+            <button
+              type="button"
+              className="pf-admin-hamburger"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle admin navigation"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2C59" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+
+            {/* Logo on mobile header */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ fontSize: '16px', fontWeight: '900', color: '#0F2C59', letterSpacing: '-0.02em' }}>
+                Pond<span style={{ color: '#0284C7' }}>Fish</span>
+              </span>
+              <span style={{ fontSize: '9px', fontWeight: '800', background: '#E0F2FE', color: '#0284C7', padding: '2px 5px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                Admin
+              </span>
+            </div>
+
+            <span className="pf-admin-header-subtitle" style={{ fontSize: '13px', color: '#64748B', fontWeight: '600' }}>
+              | Operations
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span className="pf-admin-session-badge" style={{
               fontSize: '11px',
               fontWeight: '800',
               color: '#166534',
@@ -381,13 +459,11 @@ export default function AdminLayout({ children }) {
               gap: '5px',
             }}>
               <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16A34A', display: 'inline-block' }}></span>
-              ACTIVE SESSION
+              ACTIVE
             </span>
-          </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span style={{ fontSize: '13px', color: '#0F2C59', fontWeight: '600' }}>
-              {adminUser ? `${adminUser.name} (${adminUser.email})` : 'Administrator'}
+            <span className="pf-admin-header-userinfo" style={{ fontSize: '13px', color: '#0F2C59', fontWeight: '600' }}>
+              {adminUser ? `${adminUser.name}` : 'Administrator'}
             </span>
             <button
               onClick={handleLogout}
@@ -395,7 +471,7 @@ export default function AdminLayout({ children }) {
                 background: '#FFFFFF',
                 border: '1px solid #CBD5E1',
                 color: '#DC2626',
-                padding: '6px 14px',
+                padding: '5px 12px',
                 borderRadius: '8px',
                 fontSize: '12px',
                 fontWeight: '700',
@@ -408,10 +484,46 @@ export default function AdminLayout({ children }) {
         </header>
 
         {/* Page Content */}
-        <main style={{ flex: 1, padding: '32px', overflowY: 'auto', background: '#F8FAFC' }}>
+        <main className="pf-admin-main">
           {children}
         </main>
       </div>
+
+      {/* Mobile Drawer Backdrop & Drawer mounted to body */}
+      {mounted && mobileMenuOpen && createPortal(
+        <div className="pf-admin-mobile-overlay" onClick={closeMenu}>
+          <div className="pf-admin-mobile-drawer" onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', paddingLeft: '4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '18px', fontWeight: '900', color: '#FFFFFF', letterSpacing: '-0.02em' }}>
+                  Pond<span style={{ color: '#38BDF8' }}>Fish</span>
+                </span>
+                <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(56, 189, 248, 0.2)', color: '#38BDF8', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                  Admin
+                </span>
+              </div>
+              <button
+                type="button"
+                className="pf-admin-mobile-close-btn"
+                onClick={closeMenu}
+                aria-label="Close admin menu"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', color: '#CBD5E1', flex: 1, overflowY: 'auto' }}>
+              {renderNavItems(closeMenu)}
+            </nav>
+
+            {renderUserCard()}
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
