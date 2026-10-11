@@ -491,6 +491,58 @@
   }
 }
 
+/* Carousel Controls & Navigation */
+.pf-carousel-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pf-carousel-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #1e56a0;
+  background-color: #e0f2fe;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  border: 1px solid #bfdbfe;
+  white-space: nowrap;
+}
+
+.pf-carousel-arrows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pf-carousel-arrow-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #0f2c59;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 4px rgba(15, 44, 89, 0.08);
+}
+
+.pf-carousel-arrow-btn:hover {
+  background-color: #1e56a0;
+  color: #ffffff;
+  border-color: #1e56a0;
+  transform: translateY(-1px);
+}
+
+.pf-carousel-arrow-btn:active {
+  transform: scale(0.95);
+}
+
 /* Fish Grid */
 .pf-fish-grid {
   display: grid;
@@ -1254,3 +1306,91 @@
   background: #e2e8f0;
   color: #0f2c59;
 }
+
+/* ==========================================================================
+   Mobile & Responsive Card Carousel Scrolling Experience
+   ========================================================================== */
+@media (max-width: 900px) {
+  /* Horizontal swipeable card rail for fish catalog and daily offers */
+  .pf-fish-grid,
+  .pf-offers-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px !important;
+    padding-bottom: 20px;
+    padding-top: 6px;
+    padding-left: 4px;
+    padding-right: 24px;
+    margin-right: -16px;
+    scrollbar-width: thin;
+    scrollbar-color: #93c5fd #f1f5f9;
+  }
+
+  .pf-fish-grid::-webkit-scrollbar,
+  .pf-offers-grid::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .pf-fish-grid::-webkit-scrollbar-track,
+  .pf-offers-grid::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 999px;
+  }
+
+  .pf-fish-grid::-webkit-scrollbar-thumb,
+  .pf-offers-grid::-webkit-scrollbar-thumb {
+    background: #93c5fd;
+    border-radius: 999px;
+  }
+
+  .pf-fish-card {
+    flex: 0 0 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    scroll-snap-align: start;
+    box-shadow: 0 4px 14px rgba(15, 44, 89, 0.08) !important;
+  }
+
+  .pf-offer-card {
+    flex: 0 0 270px !important;
+    min-width: 270px !important;
+    max-width: 270px !important;
+    scroll-snap-align: start;
+    box-shadow: 0 4px 14px rgba(15, 44, 89, 0.08) !important;
+  }
+
+  /* Horizontal swipeable category tabs on mobile */
+  .pf-filter-tabs {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    gap: 8px;
+    scrollbar-width: none;
+  }
+
+  .pf-filter-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pf-tab-btn {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Section heading alignment on mobile */
+  .pf-section-head {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pf-carousel-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+

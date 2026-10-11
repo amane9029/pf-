@@ -27,6 +27,14 @@ export function ChevronDown({ size = 14, className = '', color = 'currentColor',
   );
 }
 
+export function ChevronLeft({ size = 16, className = '', color = 'currentColor', ...props }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+
 export function ChevronRight({ size = 16, className = '', color = 'currentColor', ...props }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>

@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { FishIcon } from './Icons';
+import React, { useRef } from 'react';
+import { FishIcon, ChevronLeft, ChevronRight } from './Icons';
 
 const sampleOffers = [
   {
@@ -63,6 +63,15 @@ const sampleOffers = [
 ];
 
 export default function OfferTiles() {
+  const scrollContainerRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = direction === 'left' ? -280 : 280;
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="featured-offers" style={{ padding: '60px 0', backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
       <div className="pf-container">
@@ -71,9 +80,35 @@ export default function OfferTiles() {
             <p className="pf-eyebrow">TODAY&apos;S FRESH OFFERS</p>
             <h2 className="pf-section-title">Fresh catch, flash savings.</h2>
           </div>
+
+          <div className="pf-carousel-nav">
+            <span className="pf-carousel-badge">
+              4 Daily Flash Specials
+            </span>
+            <div className="pf-carousel-arrows">
+              <button
+                type="button"
+                onClick={() => scroll('left')}
+                className="pf-carousel-arrow-btn"
+                aria-label="Previous offer"
+                title="Scroll previous"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll('right')}
+                className="pf-carousel-arrow-btn"
+                aria-label="Next offer"
+                title="Scroll next"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="pf-offers-grid">
+        <div ref={scrollContainerRef} className="pf-offers-grid">
           {sampleOffers.map((offer) => (
             <article key={offer.id} className="pf-offer-card">
               <div className="pf-offer-imgwrap">

@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { FishIcon } from './Icons';
+import { FishIcon, ChevronLeft, ChevronRight } from './Icons';
 
 export default function FishAvailability() {
   const [activeTab, setActiveTab] = useState('All Fish');
   const [fishList, setFishList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scrollContainerRef = useRef(null);
 
   useEffect(() => {
     async function fetchLiveFish() {
@@ -35,14 +36,54 @@ export default function FishAvailability() {
     ? fishList
     : fishList.filter((item) => item.category_name === activeTab);
 
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = direction === 'left' ? -280 : 280;
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="fish-availability" style={{ padding: '64px 0', backgroundColor: '#f4fafc', borderBottom: '1px solid #e2e8f0' }}>
       <div className="pf-container">
-        {/* Section Heading */}
+        {/* Section Heading with Carousel Controls */}
         <div className="pf-section-head">
           <div>
             <p className="pf-eyebrow">FRESH FROM OUR STORE COUNTER</p>
             <h2 className="pf-section-title">Fresh fish, clear prices.</h2>
+          </div>
+
+          <div className="pf-carousel-nav">
+            <span className="pf-carousel-badge">
+              {filteredFish.length} varieties today
+            </span>
+            <div className="pf-carousel-arrows">
+              <button
+                type="button"
+                onClick={() => scroll('left')}
+                className="pf-carousel-arrow-btn"
+                aria-label="Previous fish"
+                title="Scroll previous"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll('right')}
+                className="pf-carousel-arrow-btn"
+                aria-label="Next fish"
+                title="Scroll next"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -52,7 +93,7 @@ export default function FishAvailability() {
             <button
               key={tab}
               type="button"
-              onClick={() => setActiveTab(tab)}
+              onClick={() => handleTabChange(tab)}
               className={`pf-tab-btn ${activeTab === tab ? 'active' : ''}`}
             >
               {tab}
@@ -60,7 +101,7 @@ export default function FishAvailability() {
           ))}
         </div>
 
-        {/* Fish Cards Grid */}
+        {/* Fish Cards Grid / Horizontal Scroll Carousel */}
         {loading ? (
           <div style={{ padding: '40px 0', textAlign: 'center', color: '#64748b', fontSize: '14px', fontWeight: '600' }}>
             Loading store counter catch...
@@ -70,10 +111,10 @@ export default function FishAvailability() {
             No varieties listed in this category right now.
           </div>
         ) : (
-          <div className="pf-fish-grid">
+          <div ref={scrollContainerRef} className="pf-fish-grid">
             {filteredFish.map((fish) => (
               <article key={fish.id} className="pf-fish-card">
-                {/* Image Container: handles image if available, otherwise stylish placeholder */}
+                {/* Image Container */}
                 <div className="pf-fish-card-imgwrap">
                   <span className="pf-fish-card-tag">
                     {fish.freshness_state === 'PEAK_FRESH' || fish.freshness_state === 'GREEN' ? '0–24H FRESH' : 'COUNTER FRESH'}
@@ -91,7 +132,6 @@ export default function FishAvailability() {
                         transition: 'transform 0.3s ease'
                       }}
                       onError={(e) => {
-                        // Fallback gracefully if image link fails
                         e.currentTarget.style.display = 'none';
                         if (e.currentTarget.parentElement) {
                           const fallback = e.currentTarget.parentElement.querySelector('.pf-fallback-icon');
