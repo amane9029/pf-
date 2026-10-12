@@ -141,10 +141,33 @@
   box-shadow: 0 10px 25px -5px rgba(15, 44, 89, 0.12), 0 4px 6px -2px rgba(15, 44, 89, 0.05);
   padding: 6px;
   min-width: 190px;
-  z-index: 60;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  animation: pfFadeDown 0.15s ease-out;
+}
+
+/* Invisible bridge so mouse moving down from trigger to menu never triggers mouseleave */
+.pf-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: transparent;
+}
+
+@keyframes pfFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pf-dropdown-item {

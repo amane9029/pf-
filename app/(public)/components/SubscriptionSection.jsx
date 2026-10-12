@@ -25,7 +25,7 @@ const plans = [
     name: 'Pond Priority',
     price: 6000,
     duration: '90 Days Validity',
-    weeklyKg: '3.5 kg / week',
+    weeklyKg: '3.0 kg / week',
     description: 'Best value for families & seafood enthusiasts.',
     featured: true,
     perks: [

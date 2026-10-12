@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { Download, ChevronDown, Menu, X } from './Icons';
@@ -19,9 +19,25 @@ export default function Header() {
   const [fishDropdown, setFishDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setFishDropdown(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
   }, []);
 
   // Close mobile drawer on ESC or route change
@@ -41,7 +57,10 @@ export default function Header() {
     };
   }, [mobileMenuOpen]);
 
-  const closeMenu = () => setMobileMenuOpen(false);
+  const closeMenu = () => {
+    setMobileMenuOpen(false);
+    setFishDropdown(false);
+  };
 
   return (
     <header className="pf-header">
@@ -59,25 +78,43 @@ export default function Header() {
 
             {/* Fish Dropdown Anchor */}
             <div
+              ref={dropdownRef}
               className="pf-nav-dropdown-wrapper"
               onMouseEnter={() => setFishDropdown(true)}
               onMouseLeave={() => setFishDropdown(false)}
             >
-              <Link
-                href="/fish"
+              <button
+                type="button"
                 className="pf-nav-link pf-nav-link-dropdown"
+                onClick={() => setFishDropdown((prev) => !prev)}
+                aria-expanded={fishDropdown}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  font: 'inherit',
+                  padding: '6px 12px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                }}
               >
                 <span>Fish</span>
-                <ChevronDown size={12} />
-              </Link>
+                <ChevronDown
+                  size={12}
+                  style={{
+                    transform: fishDropdown ? 'rotate(180deg)' : 'none',
+                    transition: 'transform 0.15s ease',
+                  }}
+                />
+              </button>
 
               {fishDropdown && (
                 <div className="pf-dropdown-menu">
-                  <Link href="/fish" className="pf-dropdown-item">All Fish Varieties</Link>
-                  <Link href="/fish?category=Freshwater%20Fish" className="pf-dropdown-item">Freshwater / Pond</Link>
-                  <Link href="/fish?category=Sea%20Fish%20%2F%20Marine" className="pf-dropdown-item">Sea Fish / Marine</Link>
-                  <Link href="/fish?category=Shellfish%20%26%20Prawns" className="pf-dropdown-item">Shellfish &amp; Prawns</Link>
-                  <Link href="/categories" className="pf-dropdown-item" style={{ borderTop: '1px solid #f1f5f9', marginTop: '4px', paddingTop: '8px', color: '#1e56a0', fontWeight: '800' }}>
+                  <Link href="/fish" className="pf-dropdown-item" onClick={() => setFishDropdown(false)}>All Fish Varieties</Link>
+                  <Link href="/fish?category=Freshwater%20Fish" className="pf-dropdown-item" onClick={() => setFishDropdown(false)}>Freshwater / Pond</Link>
+                  <Link href="/fish?category=Sea%20Fish%20%2F%20Marine" className="pf-dropdown-item" onClick={() => setFishDropdown(false)}>Sea Fish / Marine</Link>
+                  <Link href="/fish?category=Shellfish%20%26%20Prawns" className="pf-dropdown-item" onClick={() => setFishDropdown(false)}>Shellfish &amp; Prawns</Link>
+                  <Link href="/categories" className="pf-dropdown-item" onClick={() => setFishDropdown(false)} style={{ borderTop: '1px solid #f1f5f9', marginTop: '4px', paddingTop: '8px', color: '#1e56a0', fontWeight: '800' }}>
                     View All Categories &rarr;
                   </Link>
                 </div>
