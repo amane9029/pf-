@@ -34,21 +34,6 @@ const plans = [
       'Custom cut options (Steaks, Fillets, Curry Cut)',
       '10% bonus credit on festive catch arrivals'
     ]
-  },
-  {
-    id: 'plan-3',
-    name: 'Family Catch',
-    price: 10000,
-    duration: '90 Days Validity',
-    weeklyKg: '6.0 kg / week',
-    description: 'Maximum savings for large households & weekly feasts.',
-    featured: false,
-    perks: [
-      'Full wallet balance with zero deductions',
-      'Dedicated cutter station at the store',
-      'Choice of premium catches (Murrel, Vanjaram)',
-      'VIP morning harvest reservation window'
-    ]
   }
 ];
 
